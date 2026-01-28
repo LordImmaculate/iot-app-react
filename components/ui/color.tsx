@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import { Modal, Text, View } from "react-native";
 
 import ColorPicker, {
   Panel1,
   Swatches,
   Preview,
-  OpacitySlider,
   HueSlider
 } from "reanimated-color-picker";
 import Button from "@/components/ui/button";

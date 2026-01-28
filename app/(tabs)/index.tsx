@@ -7,6 +7,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Link } from 'expo-router';
 
+// noinspection JSUnusedGlobalSymbols
 export default function HomeScreen() {
   return (
     <ParallaxScrollView

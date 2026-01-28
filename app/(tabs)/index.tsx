@@ -2,6 +2,7 @@ import { View } from "react-native";
 import Button from "@/components/ui/button";
 import Color from "@/components/ui/color";
 import { useState } from "react";
+import Input from "@/components/ui/input";
 
 // noinspection JSUnusedGlobalSymbols
 export default function HomeScreen() {
@@ -15,6 +16,7 @@ export default function HomeScreen() {
         }}
       />
       <Color color={color} setColor={setColor} />
+      <Input />
     </View>
   );
 }

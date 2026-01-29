@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, {
+  cloneElement,
+  isValidElement,
+  ReactElement,
+  useState
+} from "react";
 import { Modal, Text, View } from "react-native";
 
 import ColorPicker, {
@@ -12,9 +17,9 @@ import Button from "@/components/ui/button";
 type Props = {
   color: string;
   setColor: (color: string) => void;
+  children?: React.ReactNode;
 };
-
-export default function Color({ color, setColor }: Props) {
+export default function Color({ color, setColor, children }: Props) {
   const [showModal, setShowModal] = useState(false);
   let currentColor = color;
 
@@ -23,9 +28,30 @@ export default function Color({ color, setColor }: Props) {
     currentColor = rgb;
   };
 
+  if (!isValidElement(children))
+    throw new Error("Color component must have 1 valid child element.");
+
+  // @ts-ignore
+  const originalOnPress = children.props.onPress;
+
+  // noinspection JSUnusedGlobalSymbols
+  const child = cloneElement(
+    children as ReactElement<{ onPress?: () => void }>,
+    {
+      onPress: () => {
+        setShowModal(true);
+        if (typeof originalOnPress == "function") originalOnPress();
+      }
+    }
+  );
+
   return (
     <View>
-      <Button title="Color Picker" onPress={() => setShowModal(true)} />
+      {child || (
+        <Button onPress={() => setShowModal(true)}>
+          <Text className="text-white">Select Color</Text>
+        </Button>
+      )}
 
       <Modal visible={showModal} animationType="slide">
         <View className="flex-1 justify-center h-full p-4 gap-4 dark:bg-gray-800">
@@ -54,12 +80,13 @@ export default function Color({ color, setColor }: Props) {
                 swatchStyle={{ borderColor: "white", borderWidth: 1 }}
               />
               <Button
-                title="Ok"
                 onPress={() => {
                   setShowModal(false);
                   setColor(currentColor);
                 }}
-              />
+              >
+                <Text className="text-white">Ok</Text>
+              </Button>
             </View>
           </ColorPicker>
         </View>

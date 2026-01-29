@@ -10,6 +10,7 @@ import "./globals.css";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { MqttProvider } from "@/components/providers/mqtt-context";
 
 export const unstable_settings = {
   anchor: "(tabs)"
@@ -20,16 +21,18 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="modal"
-            options={{ presentation: "modal", title: "Modal" }}
-          />
-        </Stack>
-        <StatusBar style="auto" />
-      </GestureHandlerRootView>
+      <MqttProvider brokerUrl="ws://192.168.1.2:9001/mqtt">
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="modal"
+              options={{ presentation: "modal", title: "Modal" }}
+            />
+          </Stack>
+          <StatusBar style="auto" />
+        </GestureHandlerRootView>
+      </MqttProvider>
     </ThemeProvider>
   );
 }

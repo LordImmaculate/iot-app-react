@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import mqtt, { MqttClient, IClientOptions } from "mqtt";
 
-interface MqttHookReturn {
+type MqttHookReturn = {
   status: "Connected" | "Disconnected" | "Connecting" | "Error";
 
   messages: Record<string, string>;
 
   sendMessage: (topic: string, payload: string) => void;
-}
+};
 
 type Props = {
   brokerUrl: string;
@@ -58,7 +58,7 @@ export function useMqtt({
         clientRef.current.end();
       }
     };
-  }, [brokerUrl]); // Only reconnect if the URL changes
+  }, [brokerUrl, options, subscriptions]); // Only reconnect if the URL changes
 
   // Use useCallback so these functions have a stable identity
   const sendMessage = useCallback((topic: string, payload: string) => {

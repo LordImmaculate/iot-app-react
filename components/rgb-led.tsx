@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSharedMqtt } from "@/components/providers/mqtt-context";
+import { useMqtt } from "@/components/providers/mqtt-context";
 import Color from "@/components/ui/color";
 import { View, Text } from "react-native";
 import { Lightbulb } from "lucide-react-native";
@@ -12,11 +12,11 @@ type Props = {
 
 export default function RgbLed({ topic, name }: Props) {
   const [color, setColor] = useState<string>("rgb(43, 127, 255)");
-  const { sendMessage } = useSharedMqtt();
+  const mqtt = useMqtt();
 
   useEffect(() => {
-    sendMessage(topic, color);
-  }, [color, sendMessage, topic]);
+    mqtt.publish(`${topic}/set`, color);
+  }, [color, mqtt, topic]);
 
   return (
     <View className="flex flex-row items-center gap-4">

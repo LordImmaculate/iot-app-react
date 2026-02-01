@@ -1,30 +1,17 @@
-import React, { createContext, useContext } from "react";
-import { useMqtt } from "@/hooks/use-mqtt";
+import { createContext, useContext } from "react";
+import mqttClient from "@/singletons/mqtt-client";
 
-const MqttContext = createContext<ReturnType<typeof useMqtt>>({
-  status: "Disconnected",
-  messages: {},
-  sendMessage: () => {}
-});
+const MqttContext = createContext(mqttClient);
 
-export const MqttProvider = ({
-  children,
-  brokerUrl,
-  options,
-  subscriptions
-}: Parameters<typeof useMqtt>[0] & { children: React.ReactNode }) => {
-  // Call your hook ONCE here
-  const mqttData = useMqtt({ brokerUrl, options, subscriptions });
-
+export default function MqttProvider({
+  children
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <MqttContext.Provider value={mqttData}>{children}</MqttContext.Provider>
+    <MqttContext.Provider value={mqttClient}>{children}</MqttContext.Provider>
   );
-};
+}
 
-// Create a small helper hook to consume the context
-export const useSharedMqtt = () => {
-  const context = useContext(MqttContext);
-  if (!context)
-    throw new Error("useSharedMqtt must be used within MqttProvider");
-  return context;
-};
+export const useMqtt = () => useContext(MqttContext);
+export class useSharedMqtt {}

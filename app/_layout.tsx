@@ -10,18 +10,13 @@ import "./globals.css";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { MqttProvider } from "@/components/providers/mqtt-context";
-
-export const unstable_settings = {
-  anchor: "(tabs)"
-};
-
+import MqttProvider from "@/components/providers/mqtt-context";
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <MqttProvider brokerUrl="ws://192.168.1.2:9001/mqtt">
+      <MqttProvider>
         <GestureHandlerRootView style={{ flex: 1 }}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Text,
   View,
-  TouchableOpacity,
   FlatList,
   Platform,
   PermissionsAndroid,
@@ -45,7 +44,7 @@ export default function Config() {
     setIsScanning(true);
     setDevices([]);
 
-    manager.startDeviceScan(null, null, (error, device) => {
+    await manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
         setIsScanning(false);
         return;

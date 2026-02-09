@@ -25,7 +25,7 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1 items-center justify-center  gap-4">
-      <RgbLed topic="iot/led1" name="RGB Led" />
+      <RgbLed topic="iot/rgbled1" name="RGB Led" />
       <Led topic="iot/led1" name="Led" />
       <Snackbar
         visible={visible}

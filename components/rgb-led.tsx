@@ -15,7 +15,8 @@ export default function RgbLed({ topic, name }: Props) {
   const mqtt = useMqtt();
 
   useEffect(() => {
-    mqtt.publish(`${topic}/set`, color);
+    const fColor = color.match(/\d+/g)?.join(",") || "";
+    mqtt.publish(`${topic}/set`, fColor);
   }, [color, mqtt, topic]);
 
   return (

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useMqtt } from "@/components/providers/mqtt-context";
 import Color from "@/components/ui/color";
 import { View, Text } from "react-native";
-import { Lightbulb } from "lucide-react-native";
+import { Lightbulb, LightbulbOff } from "lucide-react-native";
 import Button from "@/components/ui/button";
 
 type Props = {
@@ -25,7 +25,11 @@ export default function RgbLed({ topic, name }: Props) {
         <Button className="flex flex-row items-center gap-2">
           <Text className="text-white">{name}</Text>
           <View className="bg-white rounded-full p-2">
-            <Lightbulb color={color} />
+            {color === "rgb(0,0,0)" ? (
+              <LightbulbOff color="black" />
+            ) : (
+              <Lightbulb color={color} />
+            )}
           </View>
         </Button>
       </Color>
